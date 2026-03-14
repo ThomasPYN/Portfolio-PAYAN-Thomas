@@ -1,0 +1,2942 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thomas PAYAN - Portfolio</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --cyan: #00ffff;
+            --violet: #b464ff;
+            --green-status: #00FF88;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #1a2a4a;
+            color: #fff;
+            overflow-x: hidden;
+            cursor: auto;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+        }
+
+        /* Custom Cursor */
+        .holo-glow {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            will-change: transform, background;
+            filter: blur(60px);
+            opacity: 0.4;
+            mix-blend-mode: screen;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.5) 0%, rgba(180, 100, 255, 0.3) 40%, transparent 70%);
+            transition: opacity 0.3s ease;
+        }
+
+        .holo-glow.hovering {
+            opacity: 0.6;
+            filter: blur(50px);
+        }
+
+        @media (pointer: coarse) {
+            .holo-glow {
+                display: none !important;
+            }
+        }
+
+        /* Scroll Progress */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cyan), var(--violet));
+            z-index: 9999;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            width: 0%;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 60px rgba(0, 255, 255, 0.05);
+        }
+
+        .glass-btn {
+            position: relative;
+            overflow: hidden;
+            padding: 16px 32px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: auto;
+        }
+
+        .glass-btn:hover {
+            transform: scale(1.02);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 255, 255, 0.1);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #fff 0%, rgba(0, 255, 255, 0.8) 50%, rgba(180, 100, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Status Dot */
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--green-status);
+            box-shadow: 0 0 10px var(--green-status), 0 0 20px var(--green-status), 0 0 30px var(--green-status);
+            animation: pulse-status 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-status {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(2deg);
+            }
+        }
+
+        @keyframes float-slow {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            50% {
+                transform: translateY(-30px) translateX(10px);
+            }
+        }
+
+        @keyframes spin-slow {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-float-slow {
+            animation: float-slow 8s ease-in-out infinite;
+        }
+
+        .animate-spin-slow {
+            animation: spin-slow 20s linear infinite;
+        }
+
+        /* Particle Canvas */
+        #particle-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        /* Background Glow */
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(40, 40, 55, 0.5) 0%, #121220 100%);
+        }
+
+        .bg-glow-cyan {
+            position: fixed;
+            top: 0;
+            left: 25%;
+            width: 384px;
+            height: 384px;
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 50%;
+            filter: blur(150px);
+            pointer-events: none;
+            z-index: 0;
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+
+        .bg-glow-violet {
+            position: fixed;
+            bottom: 25%;
+            right: 25%;
+            width: 384px;
+            height: 384px;
+            background: rgba(180, 100, 255, 0.05);
+            border-radius: 50%;
+            filter: blur(150px);
+            pointer-events: none;
+            z-index: 0;
+            animation: pulse-glow 4s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                opacity: 0.3;
+                transform: translateX(-100%);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            100% {
+                opacity: 0.3;
+                transform: translateX(100%);
+            }
+        }
+
+        /* Navigation */
+        .nav-dock {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 40;
+            opacity: 0;
+            transition: all 0.5s ease;
+            pointer-events: none;
+        }
+
+        .nav-dock.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .nav-dock .glass-card {
+            display: flex;
+            padding: 12px 16px;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.6);
+            background: transparent;
+            border: none;
+            transition: all 0.3s ease;
+            cursor: none;
+            position: relative;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--cyan);
+        }
+
+        .nav-btn .tooltip {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        .nav-btn:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            position: relative;
+            padding: 80px 16px;
+            z-index: 10;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+        }
+
+        .hero-card {
+            max-width: 800px;
+            text-align: center;
+            padding: 64px 32px;
+            transform-style: preserve-3d;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            margin-bottom: 32px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+        }
+
+        .hero-desc {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            top: 80px;
+            right: 80px;
+            width: 128px;
+            height: 128px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
+            filter: blur(20px);
+        }
+
+        .orb-2 {
+            bottom: 128px;
+            left: 64px;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(180, 100, 255, 0.15) 0%, transparent 70%);
+            filter: blur(25px);
+            animation-delay: -2s;
+        }
+
+        .orb-3 {
+            top: 33%;
+            left: 25%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            filter: blur(15px);
+            animation-delay: -4s;
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-title h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 16px;
+        }
+
+        .section-title p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .bento-card {
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card.large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        @media (max-width: 768px) {
+            .bento-card.large {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
+
+        .bento-card .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .bento-card.cyan .icon {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--cyan);
+        }
+
+        .bento-card.violet .icon {
+            background: rgba(180, 100, 255, 0.1);
+            color: var(--violet);
+        }
+
+        .bento-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 16px;
+        }
+
+        .bento-card ul {
+            list-style: none;
+        }
+
+        .bento-card li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .bento-card li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .skill-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 48px;
+        }
+
+        .skill-pill {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .skill-pill:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(0, 255, 255, 0.3);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            display: flex;
+            margin-bottom: 48px;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+            transform: translateX(50px);
+        }
+
+        .timeline-item:nth-child(even).visible {
+            transform: translateX(0);
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding: 0 32px;
+        }
+
+        .timeline-content .glass-card {
+            padding: 24px;
+        }
+
+        .timeline-bubble {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .timeline-bubble.cyan {
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            color: var(--cyan);
+        }
+
+        .timeline-bubble.violet {
+            background: rgba(180, 100, 255, 0.2);
+            border: 1px solid rgba(180, 100, 255, 0.4);
+            color: var(--violet);
+        }
+
+        .timeline-date {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 12px;
+        }
+
+        .timeline-date.cyan {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--cyan);
+        }
+
+        .timeline-date.violet {
+            background: rgba(180, 100, 255, 0.1);
+            color: var(--violet);
+        }
+
+        .timeline h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .timeline-company {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .timeline-location {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .timeline-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Projects 3D */
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            padding: 24px;
+            cursor: none;
+        }
+
+        .project-card .project-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .project-card.cyan .project-icon {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--cyan);
+        }
+
+        .project-card.violet .project-icon {
+            background: rgba(180, 100, 255, 0.1);
+            color: var(--violet);
+        }
+
+        .project-card.red .project-icon {
+            background: rgba(255, 100, 100, 0.1);
+            color: #ff6464;
+        }
+
+        .project-category {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .project-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+
+        .project-desc {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .project-results {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .project-result {
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .project-techs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .project-tech {
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Space Invaders */
+        .game-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 16px;
+        }
+
+        .game-score {
+            display: flex;
+            gap: 24px;
+        }
+
+        .game-score div {
+            text-align: center;
+        }
+
+        .game-score .label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        .game-score .value {
+            font-size: 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .game-score .score-value {
+            color: var(--cyan);
+        }
+
+        .game-score .highscore-value {
+            color: var(--violet);
+        }
+
+        .game-score .lives-value {
+            color: var(--green-status);
+        }
+
+        #gameCanvas {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: #000;
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        .game-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .game-instructions {
+            text-align: center;
+            padding: 16px;
+            margin-top: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+
+        .game-instructions code {
+            color: var(--cyan);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Hobbies */
+        .hobbies-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .hobbies-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hobby-card {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .hobby-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4), 0 0 80px rgba(0, 255, 255, 0.06);
+        }
+
+        .hobby-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .hobby-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease;
+        }
+
+        .hobby-card:hover .hobby-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .hobby-card.cyan .hobby-icon {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--cyan);
+            box-shadow: 0 0 0 rgba(0, 255, 255, 0);
+        }
+
+        .hobby-card.cyan:hover .hobby-icon {
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+        }
+
+        .hobby-card.violet .hobby-icon {
+            background: rgba(180, 100, 255, 0.1);
+            color: var(--violet);
+            box-shadow: 0 0 0 rgba(180, 100, 255, 0);
+        }
+
+        .hobby-card.violet:hover .hobby-icon {
+            box-shadow: 0 0 20px rgba(180, 100, 255, 0.15);
+        }
+
+        .hobby-card h3 {
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        .hobby-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 0;
+        }
+
+        .hobby-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* Audio Visualizer */
+        .audio-viz {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 3px;
+            height: 80px;
+            padding: 12px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .audio-bar {
+            width: 5px;
+            min-height: 4px;
+            background: linear-gradient(to top, rgba(0, 255, 255, 0.4), rgba(180, 100, 255, 0.7));
+            border-radius: 3px;
+            transition: height 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: height;
+        }
+
+        /* Lookbook Grid */
+        .lookbook-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .lookbook-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, rgba(180, 100, 255, 0.12), rgba(255, 255, 255, 0.04));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .lookbook-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(180, 100, 255, 0.08));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lookbook-item:hover {
+            transform: scale(1.08);
+            border-color: rgba(180, 100, 255, 0.25);
+            box-shadow: 0 4px 16px rgba(180, 100, 255, 0.1);
+        }
+
+        .lookbook-item:hover::after {
+            opacity: 1;
+        }
+
+        .lookbook-item svg {
+            opacity: 0.25;
+            transition: opacity 0.3s ease;
+        }
+
+        .lookbook-item:hover svg {
+            opacity: 0.5;
+        }
+
+        /* Compass & Map */
+        .travel-stats {
+            padding: 16px;
+        }
+
+        .travel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .travel-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .compass {
+            position: relative;
+            width: 72px;
+            height: 72px;
+            flex-shrink: 0;
+        }
+
+        .compass-ring {
+            position: absolute;
+            inset: 0;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+        }
+
+        .compass-n {
+            position: absolute;
+            top: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+
+        .compass-needle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 26px;
+            background: linear-gradient(to top, var(--cyan), transparent);
+            transform-origin: bottom center;
+            transform: translate(-50%, -100%) rotate(0deg);
+            transition: transform 0.15s ease-out;
+            will-change: transform;
+        }
+
+        .compass-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: var(--cyan);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+        }
+
+        .mini-map {
+            height: 100px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .map-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            animation: map-pulse 2.5s ease-in-out infinite;
+        }
+
+        .map-dot::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            border: 1px solid;
+            border-color: inherit;
+            opacity: 0.3;
+            animation: map-ripple 2.5s ease-in-out infinite;
+        }
+
+        @keyframes map-pulse {
+
+            0%,
+            100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes map-ripple {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .map-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.15);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* Progress Rings */
+        .rings-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 12px;
+            padding: 8px 0;
+        }
+
+        .ring-item {
+            text-align: center;
+        }
+
+        .ring-svg {
+            width: 80px;
+            height: 80px;
+            transform: rotate(-90deg);
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 6;
+        }
+
+        .ring-progress {
+            fill: none;
+            stroke: url(#ringGradient);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 251;
+            stroke-dashoffset: 251;
+            transition: stroke-dashoffset 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .ring-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fff, rgba(0, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ring-wrapper {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+        }
+
+        .ring-label {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.05em;
+        }
+
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-form {
+            padding: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(0, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .info-card {
+            padding: 24px;
+        }
+
+        .info-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-icon.cyan {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--cyan);
+        }
+
+        .info-icon.violet {
+            background: rgba(180, 100, 255, 0.1);
+            color: var(--violet);
+        }
+
+        .info-item div {
+            flex: 1;
+        }
+
+        .info-item .label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .info-item .value {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-link {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: none;
+        }
+
+        .social-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--cyan);
+        }
+
+        footer {
+            text-align: center;
+            padding: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 80px;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+
+        footer .mono {
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 8px;
+            font-size: 0.8rem;
+        }
+
+        /* Utility */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Holographic Cursor Glow -->
+    <div class="holo-glow" id="holoGlow"></div>
+
+    <!-- Scroll Progress -->
+    <div class="progress-bar"></div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Background Glows -->
+    <div class="bg-glow"></div>
+    <div class="bg-glow-cyan"></div>
+    <div class="bg-glow-violet"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-dock" id="navDock">
+        <div class="glass-card">
+            <button class="nav-btn active" onclick="scrollToSection('hero')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span class="tooltip">Accueil</span>
+            </button>
+            <button class="nav-btn" onclick="scrollToSection('skills')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <span class="tooltip">Compétences</span>
+            </button>
+            <button class="nav-btn" onclick="scrollToSection('experience')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                <span class="tooltip">Expériences</span>
+            </button>
+            <button class="nav-btn" onclick="scrollToSection('projects')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                    </path>
+                </svg>
+                <span class="tooltip">Projets</span>
+            </button>
+            <button class="nav-btn" onclick="scrollToSection('spaceinvaders')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="6" y1="12" x2="10" y2="12"></line>
+                    <line x1="8" y1="10" x2="8" y2="14"></line>
+                    <line x1="15" y1="13" x2="15.01" y2="13"></line>
+                    <line x1="18" y1="11" x2="18.01" y2="11"></line>
+                    <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                </svg>
+                <span class="tooltip">Jeu</span>
+            </button>
+            <button class="nav-btn" onclick="scrollToSection('hobbies')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                </svg>
+                <span class="tooltip">Curiosités</span>
+            </button>
+            <button class="nav-btn" onclick="scrollToSection('contact')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <span class="tooltip">Contact</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="floating-orb orb-1 animate-float"></div>
+        <div class="floating-orb orb-2 animate-float-slow"></div>
+        <div class="floating-orb orb-3 animate-float"></div>
+
+        <div class="hero-card glass-card" id="heroCard">
+            <div class="hero-badge">
+                <span class="status-dot"></span>
+                <span style="font-size: 0.9rem; color: rgba(255,255,255,0.7);">Disponible pour alternance</span>
+            </div>
+
+            <h1 class="gradient-text">Thomas PAYAN</h1>
+            <p class="hero-subtitle">Transformation & Technologies digitales</p>
+            <p class="hero-desc">
+                En tant qu'étudiant en première année de Master à l'Efrei Paris Panthéon-Assas, je
+                suis à la recherche de mon prochain défi : un contrat d'apprentissage
+                disponible dès septembre jusqu'au 31 août 2026. Mon objectif est clair :
+                mettre mes compétences à l'épreuve, continuer à apprendre, grandir
+                professionnellement et contribuer activement à la réussite de l'entreprise.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#skills" class="glass-btn" onclick="scrollToSection('skills'); return false;">
+                    Explorer mon univers
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </a>
+                <a href="/CV-stage-payan-thomas.pdf" download="CV-Thomas-PAYAN.pdf" class="glass-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Télécharger mon CV
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="gradient-text">Arsenal Digital</h2>
+                <p>Un éventail de compétences techniques et créatives pour donner vie à vos projets digitaux.</p>
+            </div>
+
+            <div class="bento-grid">
+                <div class="bento-card glass-card cyan">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <h3>SEO</h3>
+                    <ul>
+                        <li>Google Search Console</li>
+                        <li>SEMrush</li>
+                        <li>AnswerThePublic</li>
+                        <li>Keyword Planner</li>
+                    </ul>
+                </div>
+
+                <div class="bento-card glass-card violet">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                            <polyline points="17 6 23 6 23 12"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Analyse & Tracking</h3>
+                    <ul>
+                        <li>Google Analytics</li>
+                        <li>Google Tag Manager</li>
+                    </ul>
+                </div>
+
+                <div class="bento-card glass-card cyan">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <h3>Publicité en ligne</h3>
+                    <ul>
+                        <li>Google Ads</li>
+                    </ul>
+                </div>
+
+                <div class="bento-card glass-card violet">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Email & Automation</h3>
+                    <ul>
+                        <li>Email marketing</li>
+                        <li>Marketing automation</li>
+                    </ul>
+                </div>
+
+                <div class="bento-card glass-card cyan">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line>
+                            <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line>
+                            <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"></line>
+                            <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"></line>
+                        </svg>
+                    </div>
+                    <h3>Création & Design</h3>
+                    <ul>
+                        <li>Canva</li>
+                        <li>Adobe Photoshop</li>
+                        <li>Adobe Illustrator</li>
+                        <li>Adobe Premiere Pro</li>
+                        <li>Figma</li>
+                        <li>CapCut</li>
+                    </ul>
+                </div>
+
+                <div class="bento-card glass-card violet">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Sites & CMS</h3>
+                    <ul>
+                        <li>WordPress</li>
+                        <li>Shopify</li>
+                        <li>Webflow</li>
+                        <li>Wix</li>
+                    </ul>
+                </div>
+
+                <div class="bento-card glass-card cyan">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </div>
+                    <h3>Organisation</h3>
+                    <ul>
+                        <li>Notion</li>
+                        <li>Trello</li>
+                    </ul>
+                </div>
+
+                <div class="bento-card glass-card violet">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93"></path>
+                            <path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93"></path>
+                            <path d="M12 10v4"></path>
+                            <path d="M7 22h10"></path>
+                            <path d="M12 18v4"></path>
+                            <circle cx="12" cy="16" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3>IA & Création</h3>
+                    <ul>
+                        <li>Google Gemini</li>
+                        <li>ChatGPT</li>
+                        <li>Manus</li>
+                        <li>Claude</li>
+                        <li>Toulz.ai</li>
+                        <li>KIMI</li>
+                        <li>Leonardo.Ai</li>
+                        <li>Free AI Voice Generator</li>
+                        <li>Lovable</li>
+                        <li>Napkin AI</li>
+                        <li>Generative AI</li>
+                        <li>Reve</li>
+                        <li>Stitch</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="skill-pills">
+                <span class="skill-pill">SEMrush</span>
+                <span class="skill-pill">Google Ads</span>
+                <span class="skill-pill">Analytics</span>
+                <span class="skill-pill">Canva</span>
+                <span class="skill-pill">WordPress</span>
+                <span class="skill-pill">Shopify</span>
+                <span class="skill-pill">Figma</span>
+                <span class="skill-pill">ChatGPT</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="experience">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="gradient-text">Parcours</h2>
+                <p>Mon parcours professionnel et académique, jalonné d'expériences enrichissantes.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-line"></div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="glass-card">
+                            <span class="timeline-date cyan">2025 - 2026</span>
+                            <h3>Assistant Chef de Projets Digitaux</h3>
+                            <p class="timeline-company">Weweb France</p>
+                            <p class="timeline-location">Massy</p>
+                            <p class="timeline-desc">E-commerce, UX/UI Design, Gestion de projets web</p>
+                        </div>
+                    </div>
+                    <div class="timeline-bubble cyan">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="glass-card">
+                            <span class="timeline-date violet">2025</span>
+                            <h3>Chargé de Projet E-commerce</h3>
+                            <p class="timeline-company">Otitec</p>
+                            <p class="timeline-location">Long-Pont-Sur-Orge</p>
+                            <p class="timeline-desc">Marketplaces, Optimisation fiches produits, Stratégie de vente</p>
+                        </div>
+                    </div>
+                    <div class="timeline-bubble violet">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="glass-card">
+                            <span class="timeline-date cyan">2024 - 2025</span>
+                            <h3>Responsable Structure & Communication</h3>
+                            <p class="timeline-company">Structure Équine</p>
+                            <p class="timeline-location">Maison-Laffitte</p>
+                            <p class="timeline-desc">Stratégie digitale, Réseaux sociaux, Gestion d'équipe</p>
+                        </div>
+                    </div>
+                    <div class="timeline-bubble cyan">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="glass-card">
+                            <span class="timeline-date violet">2023 - 2026</span>
+                            <h3>Bachelor Marketing Digital & Communication</h3>
+                            <p class="timeline-company">EFREI Paris Panthéon-Assas</p>
+                            <p class="timeline-location">Paris</p>
+                            <p class="timeline-desc">Formation en alternance - Félicitations du jury</p>
+                        </div>
+                    </div>
+                    <div class="timeline-bubble violet">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="glass-card">
+                            <span class="timeline-date cyan">2020 - 2023</span>
+                            <h3>Baccalauréat Général</h3>
+                            <p class="timeline-company">Lycée François Joseph Talma</p>
+                            <p class="timeline-location">Brunoy</p>
+                            <p class="timeline-desc">Spécialités : Mathématiques, NSI, Sciences Économiques</p>
+                        </div>
+                    </div>
+                    <div class="timeline-bubble cyan">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="8" r="7"></circle>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="gradient-text">Laboratoire de Création</h2>
+                <p>Projets concrets et expérimentations digitales.</p>
+            </div>
+
+            <div class="projects-container">
+                <div class="project-card glass-card cyan">
+                    <div class="project-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                    </div>
+                    <p class="project-category">E-Commerce</p>
+                    <h3>Création E-commerce</h3>
+                    <p class="project-desc">Conception et mise en place d'une boutique en ligne de A à Z. Stratégie de
+                        marque,
+                        architecture du catalogue, design UX et déploiement sur CMS.</p>
+                    <div class="project-techs">
+                        <span class="project-tech">Shopify</span>
+                        <span class="project-tech">WordPress</span>
+                        <span class="project-tech">Webflow</span>
+                    </div>
+                </div>
+
+                <div class="project-card glass-card violet">
+                    <div class="project-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                    </div>
+                    <p class="project-category">Performance</p>
+                    <h3>Dashboard Analytics</h3>
+                    <p class="project-desc">Mise en place d'un suivi de performance e-commerce avec tableaux de bord
+                        personnalisés et intégration multi-sources pour piloter la stratégie digitale.</p>
+                    <div class="project-techs">
+                        <span class="project-tech">Google Analytics</span>
+                        <span class="project-tech">Tag Manager</span>
+                        <span class="project-tech">Data Studio</span>
+                    </div>
+                </div>
+
+                <div class="project-card glass-card red">
+                    <div class="project-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="6" y1="12" x2="10" y2="12"></line>
+                            <line x1="8" y1="10" x2="8" y2="14"></line>
+                            <line x1="15" y1="13" x2="15.01" y2="13"></line>
+                            <line x1="18" y1="11" x2="18.01" y2="11"></line>
+                            <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                        </svg>
+                    </div>
+                    <p class="project-category">Mini-jeu</p>
+                    <h3>Space Invaders</h3>
+                    <p class="project-desc">Clone rétro du célèbre jeu d'arcade. Développé en pur JavaScript avec
+                        système de score et niveaux progressifs.</p>
+                    <div class="project-techs">
+                        <span class="project-tech">Canvas API</span>
+                        <span class="project-tech">JavaScript ES6+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Space Invaders Section -->
+    <section id="spaceinvaders">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="gradient-text">Space Invaders</h2>
+                <p>Prenez une pause et jouez au classique rétro ! Utilisez les flèches pour bouger et espace pour tirer.
+                </p>
+            </div>
+
+            <div class="game-container">
+                <div class="glass-card" style="position: relative;">
+                    <div class="game-header">
+                        <div class="game-score">
+                            <div>
+                                <div class="label">Score</div>
+                                <div class="value score-value" id="score">0000</div>
+                            </div>
+                            <div>
+                                <div class="label">High Score</div>
+                                <div class="value highscore-value" id="highScore">0000</div>
+                            </div>
+                            <div>
+                                <div class="label">Vies</div>
+                                <div class="value lives-value" id="lives">♥♥♥</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <canvas id="gameCanvas" width="600" height="400"></canvas>
+
+                    <div class="game-overlay" id="gameOverlay">
+                        <div id="startScreen">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#00ffff"
+                                stroke-width="2" style="margin-bottom: 16px;">
+                                <line x1="6" y1="12" x2="10" y2="12"></line>
+                                <line x1="8" y1="10" x2="8" y2="14"></line>
+                                <line x1="15" y1="13" x2="15.01" y2="13"></line>
+                                <line x1="18" y1="11" x2="18.01" y2="11"></line>
+                                <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                            </svg>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Prêt à jouer ?</h3>
+                            <p style="color: rgba(255,255,255,0.6); margin-bottom: 24px;">← → pour bouger | ESPACE pour
+                                tirer</p>
+                            <button class="glass-btn" onclick="startGame()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                                Jouer
+                            </button>
+                        </div>
+
+                        <div id="pauseScreen" class="hidden">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ffbd2e"
+                                stroke-width="2" style="margin-bottom: 16px;">
+                                <rect x="6" y="4" width="4" height="16"></rect>
+                                <rect x="14" y="4" width="4" height="16"></rect>
+                            </svg>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 24px;">Pause</h3>
+                            <button class="glass-btn" onclick="resumeGame()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                                Reprendre
+                            </button>
+                        </div>
+
+                        <div id="gameOverScreen" class="hidden">
+                            <div style="color: #ff6464; font-size: 3rem; font-weight: bold; margin-bottom: 16px;">GAME
+                                OVER</div>
+                            <p style="color: rgba(255,255,255,0.6); margin-bottom: 8px;">Score final: <span
+                                    id="finalScore">0</span></p>
+                            <p style="color: #b464ff; margin-bottom: 24px;">High Score: <span
+                                    id="finalHighScore">0</span></p>
+                            <button class="glass-btn" onclick="startGame()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="23 4 23 10 17 10"></polyline>
+                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                                </svg>
+                                Rejouer
+                            </button>
+                        </div>
+
+                        <div id="victoryScreen" class="hidden">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ffd700"
+                                stroke-width="2" style="margin-bottom: 16px;">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                            </svg>
+                            <h3 style="font-size: 1.5rem; color: #00ff88; margin-bottom: 8px;">VICTOIRE !</h3>
+                            <p style="color: rgba(255,255,255,0.6); margin-bottom: 8px;">Score final: <span
+                                    id="victoryScore">0</span></p>
+                            <p style="color: #b464ff; margin-bottom: 24px;">High Score: <span
+                                    id="victoryHighScore">0</span></p>
+                            <button class="glass-btn" onclick="startGame()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="23 4 23 10 17 10"></polyline>
+                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                                </svg>
+                                Rejouer
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="game-controls" id="gameControls" style="display: none;">
+                        <button class="glass-btn" onclick="pauseGame()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="6" y="4" width="4" height="16"></rect>
+                                <rect x="14" y="4" width="4" height="16"></rect>
+                            </svg>
+                            Pause
+                        </button>
+                        <button class="glass-btn" onclick="quitGame()" style="color: rgba(255,255,255,0.6);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                            </svg>
+                            Quitter
+                        </button>
+                    </div>
+
+                    <div class="game-instructions">
+                        <p style="font-size: 0.9rem; color: rgba(255,255,255,0.6);">
+                            <code>← →</code> ou <code>A D</code> pour bouger |
+                            <code style="margin-left: 8px;">ESPACE</code> ou <code>↑</code> pour tirer
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hobbies Section -->
+    <section id="hobbies">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="gradient-text">Au-delà du Pixel</h2>
+                <p>Des passions qui nourrissent ma créativité et façonnent ma vision du monde.</p>
+            </div>
+
+            <div class="hobbies-grid">
+                <!-- Musique -->
+                <div class="hobby-card glass-card cyan">
+                    <div class="hobby-header">
+                        <div class="hobby-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M9 18V5l12-2v13"></path>
+                                <circle cx="6" cy="18" r="3"></circle>
+                                <circle cx="18" cy="16" r="3"></circle>
+                            </svg>
+                        </div>
+                        <h3>Musique</h3>
+                    </div>
+                    <p class="hobby-desc">Passionné par la découverte musicale. Playlists curated pour chaque mood et
+                        moment de la journée.</p>
+                    <div class="hobby-content">
+                        <div class="audio-viz" id="audioViz"></div>
+                    </div>
+                </div>
+
+                <!-- Mode & Style -->
+                <div class="hobby-card glass-card violet">
+                    <div class="hobby-header">
+                        <div class="hobby-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l2.3 2.3a2.4 2.4 0 0 0 3.4 0l2.3-2.3a2.4 2.4 0 0 0 0-3.4L18 12.3l2.3-2.3a2.4 2.4 0 0 0 0-3.4L18 4.3a2.4 2.4 0 0 0-3.4 0L12 6.6 9.7 4.3a2.4 2.4 0 0 0-3.4 0L4 6.6a2.4 2.4 0 0 0 0 3.4L6.3 12 4 14.3a2.4 2.4 0 0 0 0 3.4z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3>Mode &amp; Style</h3>
+                    </div>
+                    <p class="hobby-desc">Passionné par la mode et l'art de se distinguer à travers un style personnel.
+                    </p>
+                    <div class="hobby-content">
+                        <div
+                            style="padding: 20px; border-radius: 16px; background: linear-gradient(135deg, rgba(180,100,255,0.06), rgba(255,255,255,0.02)); border: 1px solid rgba(180,100,255,0.15); position: relative; overflow: hidden;">
+                            <!-- Quote décorative -->
+                            <div
+                                style="font-size: 2.5rem; color: rgba(180,100,255,0.2); font-family: 'Space Grotesk', sans-serif; line-height: 1; margin-bottom: 8px;">
+                                "</div>
+                            <p
+                                style="font-size: 0.95rem; color: rgba(255,255,255,0.85); line-height: 1.7; font-style: italic; margin-bottom: 16px;">
+                                La mode est une forme d'expression silencieuse. Chaque tenue raconte une histoire,
+                                chaque détail compte.
+                            </p>
+                            <!-- Keywords mode -->
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
+                                <span
+                                    style="padding: 4px 12px; background: rgba(180,100,255,0.1); border: 1px solid rgba(180,100,255,0.25); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.7); font-family: 'JetBrains Mono', monospace;">Streetwear</span>
+                                <span
+                                    style="padding: 4px 12px; background: rgba(180,100,255,0.1); border: 1px solid rgba(180,100,255,0.25); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.7); font-family: 'JetBrains Mono', monospace;">Minimalisme</span>
+                                <span
+                                    style="padding: 4px 12px; background: rgba(180,100,255,0.1); border: 1px solid rgba(180,100,255,0.25); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.7); font-family: 'JetBrains Mono', monospace;">Textures</span>
+                                <span
+                                    style="padding: 4px 12px; background: rgba(180,100,255,0.1); border: 1px solid rgba(180,100,255,0.25); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.7); font-family: 'JetBrains Mono', monospace;">Créativité</span>
+                            </div>
+                            <!-- Ligne décorative gradient animée -->
+                            <div
+                                style="position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--violet), var(--cyan), transparent); animation: shimmer 3s ease-in-out infinite;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trekking & Voyages -->
+                <div class="hobby-card glass-card cyan">
+                    <div class="hobby-header">
+                        <div class="hobby-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"></path>
+                                <path
+                                    d="M7 3.34V5a3 3 0 0 0 3 3v0a2 2 0 0 1 2 2v0c0 1.1.9 2 2 2v0a2 2 0 0 0 2-2v0c0-1.1.9-2 2-2h3.17">
+                                </path>
+                                <path d="M11 21.95V18a2 2 0 0 0-2-2v0a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"></path>
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                        </div>
+                        <h3>Trekking &amp; Voyages</h3>
+                    </div>
+                    <p class="hobby-desc">Explorer le monde, un sommet à la fois. Toujours en quête de nouveaux horizons
+                        et de sentiers à parcourir.</p>
+                    <div class="hobby-content">
+                        <div class="glass-card travel-stats">
+                            <div class="travel-header">
+                                <div class="travel-count">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    8 pays explorés
+                                </div>
+                                <div class="compass">
+                                    <div class="compass-ring"></div>
+                                    <span class="compass-n">N</span>
+                                    <div class="compass-needle" id="compassNeedle"></div>
+                                    <div class="compass-center"></div>
+                                </div>
+                            </div>
+                            <!-- Pays visités -->
+                            <div style="margin-bottom: 12px;">
+                                <div
+                                    style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cyan); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">
+                                    🌍 Pays visités</div>
+                                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                    <span
+                                        style="padding: 3px 10px; background: rgba(0,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.8);">Espagne</span>
+                                    <span
+                                        style="padding: 3px 10px; background: rgba(0,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.8);">Portugal</span>
+                                    <span
+                                        style="padding: 3px 10px; background: rgba(0,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.8);">Italie</span>
+                                    <span
+                                        style="padding: 3px 10px; background: rgba(0,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.8);">Grèce</span>
+                                    <span
+                                        style="padding: 3px 10px; background: rgba(0,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.8);">Crète</span>
+                                    <span
+                                        style="padding: 3px 10px; background: rgba(0,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.8);">Corse</span>
+                                    <span
+                                        style="padding: 3px 10px; background: rgba(0,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.8);">Suisse</span>
+                                    <span
+                                        style="padding: 3px 10px; background: rgba(0,255,255,0.08); border: 1px solid rgba(0,255,255,0.2); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.8);">Chypre</span>
+                                </div>
+                            </div>
+                            <!-- Treks réalisés -->
+                            <div style="margin-bottom: 12px;">
+                                <div
+                                    style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cyan); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">
+                                    ⛰️ Treks réalisés</div>
+                                <div style="display: flex; flex-direction: column; gap: 6px;">
+                                    <div
+                                        style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: rgba(255,255,255,0.8);">
+                                        <span style="color: var(--green-status);">✓</span> Tour du Mont Blanc
+                                    </div>
+                                    <div
+                                        style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: rgba(255,255,255,0.8);">
+                                        <span style="color: var(--green-status);">✓</span> GR34 — Sentier des Douaniers
+                                    </div>
+                                    <div
+                                        style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: rgba(255,255,255,0.8);">
+                                        <span style="color: var(--green-status);">✓</span> GR340 — Belle-Île-en-Mer
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Objectif -->
+                            <div>
+                                <div
+                                    style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--violet); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">
+                                    🎯 Prochain objectif</div>
+                                <div
+                                    style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(180,100,255,0.08); border: 1px solid rgba(180,100,255,0.2); border-radius: 12px; font-size: 0.8rem; color: rgba(255,255,255,0.9);">
+                                    <span style="color: var(--violet);">→</span> GR20 — Corse
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Musculation -->
+                <div class="hobby-card glass-card violet">
+                    <div class="hobby-header">
+                        <div class="hobby-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M6.5 6.5h11"></path>
+                                <path d="M6.5 17.5h11"></path>
+                                <path d="M6 20v-2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"></path>
+                                <path d="M6 4v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4"></path>
+                            </svg>
+                        </div>
+                        <h3>Musculation</h3>
+                    </div>
+                    <p class="hobby-desc">La discipline du corps pour discipliner l'esprit. Progression, constance et
+                        dépassement.</p>
+                    <div class="hobby-content">
+                        <div class="rings-container">
+                            <div class="ring-item">
+                                <div class="ring-wrapper">
+                                    <svg class="ring-svg" viewBox="0 0 100 100">
+                                        <defs>
+                                            <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#00ffff" />
+                                                <stop offset="100%" stop-color="#b464ff" />
+                                            </linearGradient>
+                                        </defs>
+                                        <circle class="ring-bg" cx="50" cy="50" r="40"></circle>
+                                        <circle class="ring-progress" id="ring1" cx="50" cy="50" r="40"
+                                            style="stroke-dashoffset: 37;"></circle>
+                                    </svg>
+                                    <div class="ring-value">85%</div>
+                                </div>
+                                <div class="ring-label">Force</div>
+                            </div>
+                            <div class="ring-item">
+                                <div class="ring-wrapper">
+                                    <svg class="ring-svg" viewBox="0 0 100 100">
+                                        <circle class="ring-bg" cx="50" cy="50" r="40"></circle>
+                                        <circle class="ring-progress" id="ring2" cx="50" cy="50" r="40"
+                                            style="stroke-dashoffset: 70;"></circle>
+                                    </svg>
+                                    <div class="ring-value">72%</div>
+                                </div>
+                                <div class="ring-label">Endurance</div>
+                            </div>
+                            <div class="ring-item">
+                                <div class="ring-wrapper">
+                                    <svg class="ring-svg" viewBox="0 0 100 100">
+                                        <circle class="ring-bg" cx="50" cy="50" r="40"></circle>
+                                        <circle class="ring-progress" id="ring3" cx="50" cy="50" r="40"
+                                            style="stroke-dashoffset: 25;"></circle>
+                                    </svg>
+                                    <div class="ring-value">90%</div>
+                                </div>
+                                <div class="ring-label">Discipline</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="gradient-text">Initier le Contact</h2>
+                <p>Prêt à collaborer sur votre prochain projet digital ? Discutons de vos ambitions.</p>
+            </div>
+
+            <div class="contact-grid">
+                <form class="contact-form glass-card" id="contactForm"
+                    action="https://formsubmit.co/thomas.payan91330@gmail.com" method="POST">
+                    <!-- FormSubmit config -->
+                    <input type="hidden" name="_subject" value="Nouveau message depuis ton portfolio">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="text" name="_honey" style="display:none">
+
+                    <div
+                        style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 12px;">
+                        <span class="status-dot"></span>
+                        <div>
+                            <p style="font-size: 0.9rem; font-weight: 500;">Disponible pour alternance</p>
+                            <p style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">Réponse sous 24h garantie</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Nom</label>
+                        <input type="text" id="name" name="name" placeholder="Votre nom" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Parlez-moi de votre projet..."
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="glass-btn" style="width: 100%; justify-content: center;"
+                        id="submitBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                        Envoyer le message
+                    </button>
+                </form>
+
+                <div class="contact-info">
+                    <div class="info-card glass-card">
+                        <h3>Informations</h3>
+                        <div class="info-item">
+                            <div class="info-icon cyan">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                    </path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="label">Email</div>
+                                <div class="value">thomas.payan91330@gmail.com</div>
+                            </div>
+                        </div>
+                        <a href="tel:+33782935755" style="text-decoration: none; color: inherit;">
+                            <div class="info-item">
+                                <div class="info-icon violet">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="label">Téléphone</div>
+                                    <div class="value">07 82 93 57 55</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="info-item">
+                            <div class="info-icon cyan">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="label">Localisation</div>
+                                <div class="value">Île de France</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card glass-card">
+                        <h3>Réseaux</h3>
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/thomas-payan-3b1050297" target="_blank"
+                                class="social-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                    </path>
+                                    <rect x="2" y="9" width="4" height="12"></rect>
+                                    <circle cx="4" cy="4" r="2"></circle>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="padding: 24px; position: relative; overflow: hidden;">
+                        <div
+                            style="position: absolute; top: 0; right: 0; width: 128px; height: 128px; background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(180,100,255,0.1)); border-radius: 50%; filter: blur(40px);">
+                        </div>
+                        <p
+                            style="position: relative; font-style: italic; color: rgba(255,255,255,0.7); line-height: 1.6;">
+                            "Le design n'est pas seulement ce à quoi ça ressemble et ce que ça procure comme sensation.
+                            Le design, c'est comment ça fonctionne."</p>
+                        <p
+                            style="position: relative; margin-top: 12px; color: rgba(255,255,255,0.5); font-size: 0.8rem;">
+                            — Steve Jobs</p>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <p>© 2025 Thomas PAYAN. Tous droits réservés.</p>
+                <p class="mono">Conçu avec HTML, CSS, JS & beaucoup de café</p>
+            </footer>
+        </div>
+    </section>
+
+    <script>
+        // ==================== HOLOGRAPHIC CURSOR GLOW ====================
+        const holoGlow = document.getElementById('holoGlow');
+        let mouseX = 0, mouseY = 0;
+        let glowX = 0, glowY = 0;
+        let hue = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateHoloGlow() {
+            // Smooth interpolation for fluid trailing
+            glowX += (mouseX - glowX) * 0.12;
+            glowY += (mouseY - glowY) * 0.12;
+
+            // Slowly shift hue for holographic rainbow effect
+            hue = (hue + 0.3) % 360;
+            const color1 = `hsla(${hue}, 100%, 70%, 0.5)`;
+            const color2 = `hsla(${(hue + 60) % 360}, 100%, 60%, 0.3)`;
+            const color3 = `hsla(${(hue + 120) % 360}, 100%, 65%, 0.15)`;
+
+            holoGlow.style.transform = `translate3d(${glowX - 100}px, ${glowY - 100}px, 0)`;
+            holoGlow.style.background = `radial-gradient(circle, ${color1} 0%, ${color2} 40%, ${color3} 60%, transparent 70%)`;
+
+            requestAnimationFrame(animateHoloGlow);
+        }
+        animateHoloGlow();
+
+        // Slightly intensify glow on interactive elements
+        document.querySelectorAll('a, button, .glass-card, .nav-btn').forEach(el => {
+            el.addEventListener('mouseenter', () => holoGlow.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => holoGlow.classList.remove('hovering'));
+        });
+
+        // ==================== SCROLL PROGRESS ====================
+        const progressBar = document.querySelector('.progress-bar');
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            progressBar.style.width = progress + '%';
+        });
+
+        // ==================== NAVIGATION ====================
+        const navDock = document.getElementById('navDock');
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const sections = document.querySelectorAll('section');
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Show/hide nav dock
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > window.innerHeight * 0.5) {
+                navDock.classList.add('visible');
+            } else {
+                navDock.classList.remove('visible');
+            }
+        });
+
+        // Update active nav button
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('onclick').includes(current)) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+
+        // ==================== PARTICLE BACKGROUND ====================
+        const particleCanvas = document.getElementById('particle-canvas');
+        const pCtx = particleCanvas.getContext('2d');
+
+        let particles = [];
+        const particleCount = window.matchMedia('(pointer: coarse)').matches ? 15 : 30;
+
+        function resizeParticleCanvas() {
+            particleCanvas.width = window.innerWidth;
+            particleCanvas.height = window.innerHeight;
+        }
+        resizeParticleCanvas();
+        window.addEventListener('resize', resizeParticleCanvas);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * particleCanvas.width;
+                this.y = Math.random() * particleCanvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0) this.x = particleCanvas.width;
+                if (this.x > particleCanvas.width) this.x = 0;
+                if (this.y < 0) this.y = particleCanvas.height;
+                if (this.y > particleCanvas.height) this.y = 0;
+            }
+
+            draw() {
+                pCtx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                pCtx.beginPath();
+                pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                pCtx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+
+            particles.forEach((p, i) => {
+                p.update();
+                p.draw();
+
+                // Draw connections
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 100) {
+                        pCtx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - dist / 100)})`;
+                        pCtx.lineWidth = 0.5;
+                        pCtx.beginPath();
+                        pCtx.moveTo(p.x, p.y);
+                        pCtx.lineTo(p2.x, p2.y);
+                        pCtx.stroke();
+                    }
+                });
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ==================== SCROLL ANIMATIONS ====================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+
+        // ==================== HERO 3D TILT ====================
+        const heroCard = document.getElementById('heroCard');
+        const hero = document.querySelector('.hero');
+
+        hero.addEventListener('mousemove', (e) => {
+            const rect = hero.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+            heroCard.style.transform = `rotateY(${x * 10}deg) rotateX(${-y * 10}deg)`;
+        });
+
+        hero.addEventListener('mouseleave', () => {
+            heroCard.style.transform = 'rotateY(0) rotateX(0)';
+        });
+
+        // ==================== AUDIO VISUALIZER ====================
+        const audioViz = document.getElementById('audioViz');
+        for (let i = 0; i < 20; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'audio-bar';
+            bar.style.height = '20px';
+            audioViz.appendChild(bar);
+        }
+
+        function animateAudioBars() {
+            const bars = audioViz.querySelectorAll('.audio-bar');
+            bars.forEach(bar => {
+                const height = Math.random() * 60 + 10;
+                bar.style.height = height + 'px';
+            });
+        }
+        setInterval(animateAudioBars, 300);
+
+        // ==================== COMPASS ====================
+        const compassNeedle = document.getElementById('compassNeedle');
+
+        document.addEventListener('mousemove', (e) => {
+            const compass = compassNeedle.parentElement;
+            const rect = compass.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * (180 / Math.PI) + 90;
+            compassNeedle.style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
+        });
+
+        // ==================== SPACE INVADERS ====================
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const overlay = document.getElementById('gameOverlay');
+
+        const CANVAS_WIDTH = 600;
+        const CANVAS_HEIGHT = 400;
+        const PLAYER_WIDTH = 40;
+        const PLAYER_HEIGHT = 20;
+        const BULLET_WIDTH = 4;
+        const BULLET_HEIGHT = 10;
+        const ALIEN_WIDTH = 30;
+        const ALIEN_HEIGHT = 20;
+        const ALIEN_ROWS = 4;
+        const ALIEN_COLS = 8;
+
+        let gameState = 'idle'; // idle, playing, paused, gameOver, victory
+        let score = 0;
+        let highScore = localStorage.getItem('si_highScore') || 0;
+        let lives = 3;
+        let player = { x: 280, y: 360, width: PLAYER_WIDTH, height: PLAYER_HEIGHT };
+        let bullets = [];
+        let alienBullets = [];
+        let aliens = [];
+        let alienDirection = 1;
+        let keys = {};
+        let lastShot = 0;
+        let lastAlienShot = 0;
+
+        document.getElementById('highScore').textContent = highScore.toString().padStart(4, '0');
+
+        function initAliens() {
+            aliens = [];
+            for (let row = 0; row < ALIEN_ROWS; row++) {
+                for (let col = 0; col < ALIEN_COLS; col++) {
+                    aliens.push({
+                        x: 50 + col * 60,
+                        y: 50 + row * 40,
+                        alive: true
+                    });
+                }
+            }
+        }
+
+        function drawStars() {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            for (let i = 0; i < 50; i++) {
+                const x = (i * 37) % CANVAS_WIDTH;
+                const y = (i * 23) % CANVAS_HEIGHT;
+                const size = (i % 3) + 1;
+                ctx.fillRect(x, y, size, size);
+            }
+        }
+
+        function drawPlayer() {
+            ctx.fillStyle = '#00ff88';
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#00ff88';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            ctx.fillRect(player.x + player.width / 2 - 3, player.y - 10, 6, 10);
+            ctx.shadowBlur = 0;
+        }
+
+        function drawAlien(alien, row) {
+            if (!alien.alive) return;
+
+            const colors = ['#ff6464', '#ffaa00', '#00ffff', '#b464ff'];
+            ctx.fillStyle = colors[row % colors.length];
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = colors[row % colors.length];
+
+            const pixelSize = 4;
+            const pattern = [[0, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 1], [0, 1, 1, 0]];
+
+            for (let py = 0; py < pattern.length; py++) {
+                for (let px = 0; px < pattern[py].length; px++) {
+                    if (pattern[py][px]) {
+                        ctx.fillRect(alien.x + px * pixelSize + 3, alien.y + py * pixelSize + 2, pixelSize, pixelSize);
+                    }
+                }
+            }
+            ctx.shadowBlur = 0;
+        }
+
+        function drawBullet(bullet, isPlayer) {
+            ctx.fillStyle = isPlayer ? '#00ffff' : '#ff6464';
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = isPlayer ? '#00ffff' : '#ff6464';
+            ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
+            ctx.shadowBlur = 0;
+        }
+
+        function checkCollision(rect1, rect2) {
+            return rect1.x < rect2.x + rect2.width &&
+                rect1.x + rect1.width > rect2.x &&
+                rect1.y < rect2.y + rect2.height &&
+                rect1.y + rect1.height > rect2.y;
+        }
+
+        function gameLoop() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+            drawStars();
+
+            if (gameState === 'playing') {
+                // Move player
+                if (keys['ArrowLeft'] || keys['a']) {
+                    player.x = Math.max(0, player.x - 5);
+                }
+                if (keys['ArrowRight'] || keys['d']) {
+                    player.x = Math.min(CANVAS_WIDTH - player.width, player.x + 5);
+                }
+
+                // Shoot
+                if (keys[' '] || keys['ArrowUp']) {
+                    const now = Date.now();
+                    if (now - lastShot > 300) {
+                        bullets.push({
+                            x: player.x + player.width / 2 - BULLET_WIDTH / 2,
+                            y: player.y - 10,
+                            width: BULLET_WIDTH,
+                            height: BULLET_HEIGHT
+                        });
+                        lastShot = now;
+                    }
+                }
+
+                // Update bullets
+                bullets = bullets.filter(b => {
+                    b.y -= 7;
+                    return b.y > -10;
+                });
+
+                alienBullets = alienBullets.filter(b => {
+                    b.y += 3;
+                    return b.y < CANVAS_HEIGHT;
+                });
+
+                // Move aliens
+                let hitEdge = false;
+                const aliveAliens = aliens.filter(a => a.alive);
+
+                aliveAliens.forEach(alien => {
+                    alien.x += 0.5 * alienDirection;
+                    if (alien.x <= 0 || alien.x + ALIEN_WIDTH >= CANVAS_WIDTH) {
+                        hitEdge = true;
+                    }
+                });
+
+                if (hitEdge) {
+                    alienDirection *= -1;
+                    aliveAliens.forEach(alien => alien.y += 15);
+                }
+
+                // Alien shooting
+                const now = Date.now();
+                if (now - lastAlienShot > 1000 && aliveAliens.length > 0) {
+                    const shooter = aliveAliens[Math.floor(Math.random() * aliveAliens.length)];
+                    alienBullets.push({
+                        x: shooter.x + ALIEN_WIDTH / 2 - BULLET_WIDTH / 2,
+                        y: shooter.y + ALIEN_HEIGHT,
+                        width: BULLET_WIDTH,
+                        height: BULLET_HEIGHT
+                    });
+                    lastAlienShot = now;
+                }
+
+                // Check collisions
+                bullets.forEach((bullet, bi) => {
+                    aliens.forEach(alien => {
+                        if (alien.alive && checkCollision(bullet, { ...alien, width: ALIEN_WIDTH, height: ALIEN_HEIGHT })) {
+                            alien.alive = false;
+                            bullets.splice(bi, 1);
+                            score += 10;
+                            document.getElementById('score').textContent = score.toString().padStart(4, '0');
+                        }
+                    });
+                });
+
+                alienBullets.forEach((bullet, bi) => {
+                    if (checkCollision(bullet, player)) {
+                        alienBullets.splice(bi, 1);
+                        lives--;
+                        document.getElementById('lives').textContent = '♥'.repeat(lives);
+                        if (lives <= 0) {
+                            gameOver();
+                        }
+                    }
+                });
+
+                // Check victory
+                if (aliveAliens.length === 0) {
+                    victory();
+                }
+
+                // Check game over (aliens reached bottom)
+                aliveAliens.forEach(alien => {
+                    if (alien.y + ALIEN_HEIGHT >= player.y) {
+                        gameOver();
+                    }
+                });
+            }
+
+            // Draw everything
+            drawPlayer();
+            aliens.forEach((alien, i) => drawAlien(alien, Math.floor(i / ALIEN_COLS)));
+            bullets.forEach(b => drawBullet(b, true));
+            alienBullets.forEach(b => drawBullet(b, false));
+
+            if (gameState === 'playing') {
+                requestAnimationFrame(gameLoop);
+            }
+        }
+
+        function startGame() {
+            gameState = 'playing';
+            score = 0;
+            lives = 3;
+            bullets = [];
+            alienBullets = [];
+            alienDirection = 1;
+            player.x = 280;
+
+            document.getElementById('score').textContent = '0000';
+            document.getElementById('lives').textContent = '♥♥♥';
+            document.getElementById('gameOverlay').classList.add('hidden');
+            document.getElementById('gameControls').style.display = 'flex';
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('gameOverScreen').classList.add('hidden');
+            document.getElementById('victoryScreen').classList.add('hidden');
+
+            initAliens();
+            gameLoop();
+        }
+
+        function pauseGame() {
+            gameState = 'paused';
+            document.getElementById('gameOverlay').classList.remove('hidden');
+            document.getElementById('pauseScreen').classList.remove('hidden');
+        }
+
+        function resumeGame() {
+            gameState = 'playing';
+            document.getElementById('gameOverlay').classList.add('hidden');
+            document.getElementById('pauseScreen').classList.add('hidden');
+            gameLoop();
+        }
+
+        function quitGame() {
+            gameState = 'idle';
+            document.getElementById('gameOverlay').classList.remove('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+            document.getElementById('gameControls').style.display = 'none';
+            document.getElementById('pauseScreen').classList.add('hidden');
+
+            // Clear canvas
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            drawStars();
+        }
+
+        function gameOver() {
+            gameState = 'gameOver';
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('si_highScore', highScore);
+                document.getElementById('highScore').textContent = highScore.toString().padStart(4, '0');
+            }
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalHighScore').textContent = highScore;
+            document.getElementById('gameOverlay').classList.remove('hidden');
+            document.getElementById('gameOverScreen').classList.remove('hidden');
+            document.getElementById('gameControls').style.display = 'none';
+        }
+
+        function victory() {
+            gameState = 'victory';
+            const finalScore = score + 100;
+            if (finalScore > highScore) {
+                highScore = finalScore;
+                localStorage.setItem('si_highScore', highScore);
+                document.getElementById('highScore').textContent = highScore.toString().padStart(4, '0');
+            }
+            document.getElementById('victoryScore').textContent = finalScore;
+            document.getElementById('victoryHighScore').textContent = highScore;
+            document.getElementById('gameOverlay').classList.remove('hidden');
+            document.getElementById('victoryScreen').classList.remove('hidden');
+            document.getElementById('gameControls').style.display = 'none';
+        }
+
+        // Keyboard controls — prevent default scroll on game keys only while playing
+        const gameKeys = [' ', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+
+        window.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+            if (gameState === 'playing' && gameKeys.includes(e.key)) {
+                e.preventDefault();
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+            if (gameState === 'playing' && gameKeys.includes(e.key)) {
+                e.preventDefault();
+            }
+        });
+
+        // ==================== CONTACT FORM ====================
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const btn = document.getElementById('submitBtn');
+                const originalContent = btn.innerHTML;
+
+                btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg> Envoi en cours...';
+                btn.disabled = true;
+
+                const formData = new FormData(contactForm);
+
+                fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                }).then(function (response) {
+                    if (response.ok) {
+                        btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg><span style="color: #00ff88;">Message envoyé !</span>';
+                        contactForm.reset();
+                        setTimeout(function () {
+                            btn.innerHTML = originalContent;
+                            btn.disabled = false;
+                        }, 3000);
+                    } else {
+                        throw new Error('Erreur serveur');
+                    }
+                }).catch(function (error) {
+                    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff6464" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg><span style="color: #ff6464;">Erreur, réessayez</span>';
+                    console.error('Form error:', error);
+                    setTimeout(function () {
+                        btn.innerHTML = originalContent;
+                        btn.disabled = false;
+                    }, 3000);
+                });
+            });
+        }
+
+        // Add spin animation for loader
+        const style = document.createElement('style');
+        style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } } @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }';
+        document.head.appendChild(style);
+
+        // Initial canvas draw
+        drawStars();
+    </script>
+</body>
+
+</html>
