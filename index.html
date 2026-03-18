@@ -59,8 +59,8 @@
             will-change: transform, background;
             filter: blur(60px);
             opacity: 0.4;
-            mix-blend-mode: screen;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.5) 0%, rgba(180, 100, 255, 0.3) 40%, transparent 70%);
+            mix-blend-mode: normal;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, rgba(180, 100, 255, 0.2) 40%, transparent 70%);
             transition: opacity 0.3s ease;
         }
 
@@ -118,7 +118,7 @@
             align-items: center;
             gap: 12px;
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            cursor: auto;
+            cursor: pointer;
         }
 
         .glass-btn:hover {
@@ -1929,10 +1929,19 @@
                         permettant aux hôtels de luxe de circulariser et vendre leurs collections d'art à une clientèle
                         exclusive et restreinte.</p>
                     <div class="video-container"
-                        style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                        <iframe src="https://www.youtube.com/embed/rxgO0UWJxck" title="ArtLink Video"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
+                        style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer;"
+                        onclick="openVideoModal('rxgO0UWJxck')">
+                        <img src="https://img.youtube.com/vi/rxgO0UWJxck/hqdefault.jpg"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
+                            alt="ArtLink Video" onmouseover="this.style.transform='scale(1.05)'"
+                            onmouseout="this.style.transform='scale(1)'">
+                        <div
+                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.6); border-radius: 50%; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2"
+                                stroke-linejoin="round">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </div>
                     </div>
                     <div class="project-techs" style="margin-bottom: 24px;">
                         <span class="project-tech"
@@ -1981,10 +1990,19 @@
                         e-commerce immersive "L'art prend vie" intégrant une modélisation 3D réelle des produits et une
                         stratégie de gamification interactive.</p>
                     <div class="video-container"
-                        style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                        <iframe src="https://www.youtube.com/embed/mznLrCWxsMk" title="Bic x Keith Haring Video"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
+                        style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer;"
+                        onclick="openVideoModal('mznLrCWxsMk')">
+                        <img src="https://img.youtube.com/vi/mznLrCWxsMk/maxresdefault.jpg"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
+                            alt="Bic x Keith Haring Video" onmouseover="this.style.transform='scale(1.05)'"
+                            onmouseout="this.style.transform='scale(1)'">
+                        <div
+                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.6); border-radius: 50%; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2"
+                                stroke-linejoin="round">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </div>
                     </div>
                     <div class="project-techs" style="margin-bottom: 24px;">
                         <span class="project-tech"
@@ -2031,10 +2049,19 @@
                         de mode minimaliste : de l'identité visuelle ("Style Nuage") au lancement de campagnes Google
                         Ads (Search, YouTube, Display) pour 2026.</p>
                     <div class="video-container"
-                        style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                        <iframe src="https://www.youtube.com/embed/CGzZFEq15d0" title="Kumo Video"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
+                        style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer;"
+                        onclick="openVideoModal('CGzZFEq15d0')">
+                        <img src="https://img.youtube.com/vi/CGzZFEq15d0/maxresdefault.jpg"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
+                            alt="Kumo Video" onmouseover="this.style.transform='scale(1.05)'"
+                            onmouseout="this.style.transform='scale(1)'">
+                        <div
+                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.6); border-radius: 50%; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2"
+                                stroke-linejoin="round">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </div>
                     </div>
                     <div class="project-techs" style="margin-bottom: 24px;">
                         <span class="project-tech"
@@ -3143,8 +3170,34 @@
         drawStars();
 
         // ==================== MULTIMEDIA MODAL ====================
+        function openVideoModal(videoId) {
+            const modal = document.getElementById('videoModal');
+            const container = document.getElementById('modalVideoContainer');
+            container.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId + '?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+            modal.classList.add('active');
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const container = document.getElementById('modalVideoContainer');
+            modal.classList.remove('active');
+            setTimeout(() => { container.innerHTML = ''; }, 400);
+        }
     </script>
 
+    <!-- Video Modal -->
+    <div class="modal-overlay" id="videoModal">
+        <div class="modal-content glass-card" style="padding: 0; background: #000; border: none; max-width: 900px;">
+            <button class="modal-close" onclick="closeVideoModal()" style="z-index: 10;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div id="modalVideoContainer" class="video-container"
+                style="border-radius: 12px; overflow: hidden; margin-bottom: 0;"></div>
+        </div>
+    </div>
 </body>
 
 </html>
