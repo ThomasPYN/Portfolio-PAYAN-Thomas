@@ -318,7 +318,7 @@
             background: transparent;
             border: none;
             transition: all 0.3s ease;
-            cursor: none;
+            cursor: pointer;
             position: relative;
         }
 
@@ -692,7 +692,7 @@
 
         .project-card {
             padding: 24px;
-            cursor: none;
+            cursor: pointer;
         }
 
         .project-card .project-icon {
@@ -1164,6 +1164,7 @@
             justify-content: space-around;
             gap: 12px;
             padding: 8px 0;
+            margin: auto 0;
         }
 
         .ring-item {
@@ -1344,7 +1345,7 @@
             justify-content: center;
             color: white;
             transition: all 0.3s ease;
-            cursor: none;
+            cursor: pointer;
         }
 
         .social-link:hover {
@@ -1373,6 +1374,122 @@
         /* Utility */
         .hidden {
             display: none !important;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 15, 30, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            padding: 24px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 48px;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 100, 100, 0.1);
+            border-color: rgba(255, 100, 100, 0.3);
+            color: #ff6464;
+            transform: rotate(90deg);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .video-card {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .video-card h3 {
+            font-size: 1.25rem;
+            color: white;
+            margin-bottom: 0;
+            text-align: center;
+            letter-spacing: 0.02em;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                padding: 48px 20px 20px 20px;
+            }
+
+            .modal-close {
+                top: 12px;
+                right: 12px;
+            }
         }
     </style>
 </head>
@@ -1786,65 +1903,153 @@
             </div>
 
             <div class="projects-container">
-                <div class="project-card glass-card cyan">
-                    <div class="project-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <circle cx="9" cy="21" r="1"></circle>
-                            <circle cx="20" cy="21" r="1"></circle>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
+                <!-- ArtLink -->
+                <div class="project-card glass-card violet" style="display: flex; flex-direction: column;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                        <div class="project-icon"
+                            style="display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: #000; border-radius: 12px; font-weight: bold; font-size: 1.2rem; margin-bottom: 0;">
+                            7L
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=rxgO0UWJxck" target="_blank" class="glass-btn icon-btn"
+                            style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 12px; text-decoration: none;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </a>
                     </div>
-                    <p class="project-category">E-Commerce</p>
-                    <h3>Création E-commerce</h3>
-                    <p class="project-desc">Conception et mise en place d'une boutique en ligne de A à Z. Stratégie de
-                        marque,
-                        architecture du catalogue, design UX et déploiement sur CMS.</p>
-                    <div class="project-techs">
-                        <span class="project-tech">Shopify</span>
-                        <span class="project-tech">WordPress</span>
-                        <span class="project-tech">Webflow</span>
+                    <p class="project-category"
+                        style="color: rgba(255,255,255,0.5); font-size: 0.75rem; letter-spacing: 2px;">MARKETPLACE B2B2C
+                    </p>
+                    <h3 style="margin: 8px 0 16px 0; font-size: 1.5rem; line-height: 1.2;">ArtLink —
+                        Marketplace<br>B2B2C Luxe</h3>
+                    <p class="project-desc" style="flex-grow: 1; margin-bottom: 24px;">Plateforme e-commerce immersive
+                        permettant aux hôtels de luxe de circulariser et vendre leurs collections d'art à une clientèle
+                        exclusive et restreinte.</p>
+                    <div class="video-container"
+                        style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                        <iframe src="https://www.youtube.com/embed/rxgO0UWJxck" title="ArtLink Video"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="project-techs" style="margin-bottom: 24px;">
+                        <span class="project-tech"
+                            style="color: #b464ff; border-color: rgba(180, 100, 255, 0.2); background: rgba(180, 100, 255, 0.05);">B2B2C</span>
+                        <span class="project-tech"
+                            style="color: #b464ff; border-color: rgba(180, 100, 255, 0.2); background: rgba(180, 100, 255, 0.05);">Circular
+                            Economy</span>
+                        <span class="project-tech"
+                            style="color: #b464ff; border-color: rgba(180, 100, 255, 0.2); background: rgba(180, 100, 255, 0.05);">Premium
+                            UX</span>
+                    </div>
+                    <div
+                        style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">
+                        <span style="color: rgba(255,255,255,0.5);">Impact</span>
+                        <span style="color: #b464ff; font-weight: 600;">Cercle Privé & Sécurisé</span>
                     </div>
                 </div>
 
-                <div class="project-card glass-card violet">
-                    <div class="project-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <line x1="18" y1="20" x2="18" y2="10"></line>
-                            <line x1="12" y1="20" x2="12" y2="4"></line>
-                            <line x1="6" y1="20" x2="6" y2="14"></line>
-                        </svg>
+                <!-- Bic x Keith Haring -->
+                <div class="project-card glass-card cyan" style="display: flex; flex-direction: column;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                        <div
+                            style="display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: #fff; border-radius: 12px; margin-bottom: 0; padding: 6px;">
+                            <svg viewBox="0 0 24 24" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="6" cy="12" r="4" fill="#ff2a2a" />
+                                <circle cx="12" cy="12" r="4" fill="#ffd700" />
+                                <circle cx="18" cy="12" r="4" fill="#00a2ff" />
+                            </svg>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=mznLrCWxsMk" target="_blank" class="glass-btn icon-btn"
+                            style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 12px; text-decoration: none;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </a>
                     </div>
-                    <p class="project-category">Performance</p>
-                    <h3>Dashboard Analytics</h3>
-                    <p class="project-desc">Mise en place d'un suivi de performance e-commerce avec tableaux de bord
-                        personnalisés et intégration multi-sources pour piloter la stratégie digitale.</p>
-                    <div class="project-techs">
-                        <span class="project-tech">Google Analytics</span>
-                        <span class="project-tech">Tag Manager</span>
-                        <span class="project-tech">Data Studio</span>
+                    <p class="project-category"
+                        style="color: rgba(255,255,255,0.5); font-size: 0.75rem; letter-spacing: 2px;">EXPÉRIENCE
+                        DIGITALE & 3D</p>
+                    <h3 style="margin: 8px 0 16px 0; font-size: 1.5rem; line-height: 1.2;">BIC X KEITH HARING
+                        —<br>Expérience Digitale & 3D</h3>
+                    <p class="project-desc" style="flex-grow: 1; margin-bottom: 24px;">Développement d'une plateforme
+                        e-commerce immersive "L'art prend vie" intégrant une modélisation 3D réelle des produits et une
+                        stratégie de gamification interactive.</p>
+                    <div class="video-container"
+                        style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                        <iframe src="https://www.youtube.com/embed/mznLrCWxsMk" title="Bic x Keith Haring Video"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="project-techs" style="margin-bottom: 24px;">
+                        <span class="project-tech"
+                            style="color: #00ffff; border-color: rgba(0, 255, 255, 0.2); background: rgba(0, 255, 255, 0.05);">E-commerce</span>
+                        <span class="project-tech"
+                            style="color: #00ffff; border-color: rgba(0, 255, 255, 0.2); background: rgba(0, 255, 255, 0.05);">Modélisation
+                            3D</span>
+                        <span class="project-tech"
+                            style="color: #00ffff; border-color: rgba(0, 255, 255, 0.2); background: rgba(0, 255, 255, 0.05);">Gamification</span>
+                    </div>
+                    <div
+                        style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">
+                        <span style="color: rgba(255,255,255,0.5);">Impact</span>
+                        <span style="color: #00ffff; font-weight: 600;">Immersion Digitale Totale</span>
                     </div>
                 </div>
 
-                <div class="project-card glass-card red">
-                    <div class="project-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <line x1="6" y1="12" x2="10" y2="12"></line>
-                            <line x1="8" y1="10" x2="8" y2="14"></line>
-                            <line x1="15" y1="13" x2="15.01" y2="13"></line>
-                            <line x1="18" y1="11" x2="18.01" y2="11"></line>
-                            <rect x="2" y="6" width="20" height="12" rx="2"></rect>
-                        </svg>
+                <!-- Kumo -->
+                <div class="project-card glass-card red" style="display: flex; flex-direction: column;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                        <div class="project-icon"
+                            style="display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: rgba(255,100,100,0.1); border-radius: 12px; margin-bottom: 0; padding: 8px;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff6464"
+                                stroke-width="2">
+                                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+                            </svg>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=CGzZFEq15d0" target="_blank" class="glass-btn icon-btn"
+                            style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 12px; text-decoration: none;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </a>
                     </div>
-                    <p class="project-category">Mini-jeu</p>
-                    <h3>Space Invaders</h3>
-                    <p class="project-desc">Clone rétro du célèbre jeu d'arcade. Développé en pur JavaScript avec
-                        système de score et niveaux progressifs.</p>
-                    <div class="project-techs">
-                        <span class="project-tech">Canvas API</span>
-                        <span class="project-tech">JavaScript ES6+</span>
+                    <p class="project-category"
+                        style="color: rgba(255,255,255,0.5); font-size: 0.75rem; letter-spacing: 2px;">STRATÉGIE DE
+                        MARQUE & SEA</p>
+                    <h3 style="margin: 8px 0 16px 0; font-size: 1.5rem; line-height: 1.2;">KUMO — Stratégie de<br>Marque
+                        & SEA</h3>
+                    <p class="project-desc" style="flex-grow: 1; margin-bottom: 24px;">Création intégrale d'une marque
+                        de mode minimaliste : de l'identité visuelle ("Style Nuage") au lancement de campagnes Google
+                        Ads (Search, YouTube, Display) pour 2026.</p>
+                    <div class="video-container"
+                        style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                        <iframe src="https://www.youtube.com/embed/CGzZFEq15d0" title="Kumo Video"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="project-techs" style="margin-bottom: 24px;">
+                        <span class="project-tech"
+                            style="color: #ff6464; border-color: rgba(255, 100, 100, 0.2); background: rgba(255, 100, 100, 0.05);">Brand
+                            Identity</span>
+                        <span class="project-tech"
+                            style="color: #ff6464; border-color: rgba(255, 100, 100, 0.2); background: rgba(255, 100, 100, 0.05);">SEA
+                            Strategy</span>
+                        <span class="project-tech"
+                            style="color: #ff6464; border-color: rgba(255, 100, 100, 0.2); background: rgba(255, 100, 100, 0.05);">E-commerce</span>
+                    </div>
+                    <div
+                        style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">
+                        <span style="color: rgba(255,255,255,0.5);">Impact</span>
+                        <span style="color: #ff6464; font-weight: 600;">160M d'impressions visées</span>
                     </div>
                 </div>
             </div>
@@ -2936,7 +3141,10 @@
 
         // Initial canvas draw
         drawStars();
+
+        // ==================== MULTIMEDIA MODAL ====================
     </script>
+
 </body>
 
 </html>
